@@ -46,15 +46,19 @@ const recipeData = {
   },
 };
 
+// Required for static generation
 export function generateStaticParams() {
   return Object.keys(recipeData).map((slug) => ({ slug }));
 }
 
-export default function RecipePage({ params }: { params: { slug: string } }) {
+// ✅ Fix: Mark this function async
+export default async function RecipePage({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const recipe = recipeData[slug as keyof typeof recipeData];
 
-  if (!recipe) return <div className="text-center p-10 text-lg">Recipe not found</div>;
+  if (!recipe) {
+    return <div className="text-center p-10 text-lg">Recipe not found</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-800 to-slate-900 p-6">
@@ -92,5 +96,7 @@ export default function RecipePage({ params }: { params: { slug: string } }) {
     </div>
   );
 }
+
+ 
 
 
