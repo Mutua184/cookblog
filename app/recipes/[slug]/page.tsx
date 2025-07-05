@@ -46,20 +46,14 @@ const recipeData = {
   },
 };
 
-// ✅ Required for static site generation
+// ✅ Required for static generation
 export function generateStaticParams() {
   return Object.keys(recipeData).map((slug) => ({ slug }));
 }
 
-// ✅ Correctly typed props
-type PageProps = {
-  params: {
-    slug: string;
-  };
-};
-
-export default function RecipePage(props: PageProps) {
-  const { slug } = props.params;
+// ✅ FIXED TYPING for params to avoid Vercel TypeScript error
+export default function Page({ params }: { params: { slug: string } }) {
+  const { slug } = params;
   const recipe = recipeData[slug as keyof typeof recipeData];
 
   if (!recipe) {
@@ -102,6 +96,7 @@ export default function RecipePage(props: PageProps) {
     </div>
   );
 }
+
 
 
  
