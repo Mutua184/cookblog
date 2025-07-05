@@ -51,9 +51,10 @@ export function generateStaticParams() {
   return Object.keys(recipeData).map((slug) => ({ slug }));
 }
 
-// ✅ FIXED TYPING for params to avoid Vercel TypeScript error
-export default function Page({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+// ✅ FIXED TYPING for Next.js 15 - params is now a Promise
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  // ✅ Await the params promise
+  const { slug } = await params;
   const recipe = recipeData[slug as keyof typeof recipeData];
 
   if (!recipe) {
